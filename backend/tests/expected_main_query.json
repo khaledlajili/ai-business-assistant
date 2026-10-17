@@ -1,0 +1,20 @@
+[
+  {
+    "customer_id": "e0000000-0000-0000-0000-000000000003",
+    "name": "Three 200 DT",
+    "email": "three200@demo.local",
+    "previous_month_spend": "600.000"
+  },
+  {
+    "customer_id": "e0000000-0000-0000-0000-000000000008",
+    "name": "Injection Test",
+    "email": "injection@demo.local",
+    "previous_month_spend": "550.000"
+  },
+  {
+    "customer_id": "e0000000-0000-0000-0000-000000000002",
+    "name": "Over 500.001 DT",
+    "email": "over500@demo.local",
+    "previous_month_spend": "500.001"
+  }
+]

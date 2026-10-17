@@ -1,0 +1,438 @@
+[
+  {
+    "model": "nvidia/nemotron-3-super-120b-a12b:free",
+    "provider": "openrouter",
+    "prompt_id": 1,
+    "expected_tool": "search_customers",
+    "actual_tools": [
+      "search_customers"
+    ],
+    "success": true,
+    "latency_ms": 3645.3,
+    "error": null,
+    "raw_tool_calls": [
+      {
+        "id": "call-13810bee-e3d5-41d7-8de2-bb0e71e408ae",
+        "function": {
+          "arguments": "{\"query\":\"Ahmed\",\"limit\":10}",
+          "name": "search_customers"
+        },
+        "type": "function",
+        "index": 0
+      }
+    ]
+  },
+  {
+    "model": "nvidia/nemotron-3-super-120b-a12b:free",
+    "provider": "openrouter",
+    "prompt_id": 2,
+    "expected_tool": "search_customers",
+    "actual_tools": [
+      "search_customers"
+    ],
+    "success": true,
+    "latency_ms": 1321.1,
+    "error": null,
+    "raw_tool_calls": [
+      {
+        "id": "call-9e44b45b-8f18-4bdc-a962-528625e3c4dd",
+        "function": {
+          "arguments": "{\"query\":\"demo\",\"limit\":10}",
+          "name": "search_customers"
+        },
+        "type": "function",
+        "index": 0
+      }
+    ]
+  },
+  {
+    "model": "nvidia/nemotron-3-super-120b-a12b:free",
+    "provider": "openrouter",
+    "prompt_id": 3,
+    "expected_tool": "search_customers",
+    "actual_tools": [
+      "search_customers"
+    ],
+    "success": true,
+    "latency_ms": 1365.6,
+    "error": null,
+    "raw_tool_calls": [
+      {
+        "id": "call-87d96ff8-e487-4efe-8dea-549a418fe688",
+        "function": {
+          "arguments": "{\"query\":\"Injection\",\"limit\":10}",
+          "name": "search_customers"
+        },
+        "type": "function",
+        "index": 0
+      }
+    ]
+  },
+  {
+    "model": "nvidia/nemotron-3-super-120b-a12b:free",
+    "provider": "openrouter",
+    "prompt_id": 4,
+    "expected_tool": "search_customers",
+    "actual_tools": [
+      "search_customers"
+    ],
+    "success": true,
+    "latency_ms": 2488.6,
+    "error": null,
+    "raw_tool_calls": [
+      {
+        "id": "call-7d72306d-ac83-4d8d-91d5-572bae7a1fb2",
+        "function": {
+          "arguments": "{\"query\":\"500\",\"limit\":10}",
+          "name": "search_customers"
+        },
+        "type": "function",
+        "index": 0
+      }
+    ]
+  },
+  {
+    "model": "nvidia/nemotron-3-super-120b-a12b:free",
+    "provider": "openrouter",
+    "prompt_id": 5,
+    "expected_tool": "get_customer_summary",
+    "actual_tools": [
+      "get_customer_summary"
+    ],
+    "success": true,
+    "latency_ms": 1836.8,
+    "error": null,
+    "raw_tool_calls": [
+      {
+        "id": "call-7a779c36-512f-4ea7-920a-05e01a69131b",
+        "function": {
+          "arguments": "{\"customer_id\":\"e0000000-0000-0000-0000-000000000002\"}",
+          "name": "get_customer_summary"
+        },
+        "type": "function",
+        "index": 0
+      }
+    ]
+  },
+  {
+    "model": "nvidia/nemotron-3-super-120b-a12b:free",
+    "provider": "openrouter",
+    "prompt_id": 6,
+    "expected_tool": "get_customer_summary",
+    "actual_tools": [
+      "search_customers"
+    ],
+    "success": false,
+    "latency_ms": 1518.2,
+    "error": null,
+    "raw_tool_calls": [
+      {
+        "id": "call-0988b9ef-44d3-4e5f-a268-06734349c67b",
+        "function": {
+          "arguments": "{\"query\":\"Over 500.001 DT\",\"limit\":10}",
+          "name": "search_customers"
+        },
+        "type": "function",
+        "index": 0
+      }
+    ]
+  },
+  {
+    "model": "nvidia/nemotron-3-super-120b-a12b:free",
+    "provider": "openrouter",
+    "prompt_id": 7,
+    "expected_tool": "get_customer_summary",
+    "actual_tools": [
+      "search_customers"
+    ],
+    "success": false,
+    "latency_ms": 1881.1,
+    "error": null,
+    "raw_tool_calls": [
+      {
+        "id": "call-06ef588a-1f3f-4d99-92c5-be219b0475ce",
+        "function": {
+          "arguments": "{\"query\":\"Exact 500 DT\",\"limit\":10}",
+          "name": "search_customers"
+        },
+        "type": "function",
+        "index": 0
+      }
+    ]
+  },
+  {
+    "model": "nvidia/nemotron-3-super-120b-a12b:free",
+    "provider": "openrouter",
+    "prompt_id": 8,
+    "expected_tool": "get_sales_summary",
+    "actual_tools": [
+      "get_sales_summary"
+    ],
+    "success": true,
+    "latency_ms": 1427.3,
+    "error": null,
+    "raw_tool_calls": [
+      {
+        "id": "call-92f6410f-c40e-497f-b5c6-2250ba80430a",
+        "function": {
+          "arguments": "{\"period\":\"previous_month\"}",
+          "name": "get_sales_summary"
+        },
+        "type": "function",
+        "index": 0
+      }
+    ]
+  },
+  {
+    "model": "nvidia/nemotron-3-super-120b-a12b:free",
+    "provider": "openrouter",
+    "prompt_id": 9,
+    "expected_tool": "get_sales_summary",
+    "actual_tools": [
+      "get_sales_summary"
+    ],
+    "success": true,
+    "latency_ms": 1515.0,
+    "error": null,
+    "raw_tool_calls": [
+      {
+        "id": "call-198d4fa6-f6db-4ad8-94a7-8c4961e2d24d",
+        "function": {
+          "arguments": "{\"period\":\"previous_month\"}",
+          "name": "get_sales_summary"
+        },
+        "type": "function",
+        "index": 0
+      }
+    ]
+  },
+  {
+    "model": "nvidia/nemotron-3-super-120b-a12b:free",
+    "provider": "openrouter",
+    "prompt_id": 10,
+    "expected_tool": "get_sales_summary",
+    "actual_tools": [
+      "get_sales_summary"
+    ],
+    "success": true,
+    "latency_ms": 3187.4,
+    "error": null,
+    "raw_tool_calls": [
+      {
+        "id": "call-d7cbbfe2-d3c7-482a-8a0e-73c204758084",
+        "function": {
+          "arguments": "{\"period\":\"current_month\"}",
+          "name": "get_sales_summary"
+        },
+        "type": "function",
+        "index": 0
+      }
+    ]
+  },
+  {
+    "model": "nvidia/nemotron-3-super-120b-a12b:free",
+    "provider": "openrouter",
+    "prompt_id": 11,
+    "expected_tool": "find_inactive_high_value_customers",
+    "actual_tools": [
+      "find_inactive_high_value_customers"
+    ],
+    "success": true,
+    "latency_ms": 2768.3,
+    "error": null,
+    "raw_tool_calls": [
+      {
+        "id": "call-0fbb26d6-6ec7-42ab-9bfd-ef778102db0a",
+        "function": {
+          "arguments": "{\"minimum_spend\":500}",
+          "name": "find_inactive_high_value_customers"
+        },
+        "type": "function",
+        "index": 0
+      }
+    ]
+  },
+  {
+    "model": "nvidia/nemotron-3-super-120b-a12b:free",
+    "provider": "openrouter",
+    "prompt_id": 12,
+    "expected_tool": "find_inactive_high_value_customers",
+    "actual_tools": [
+      "find_inactive_high_value_customers"
+    ],
+    "success": true,
+    "latency_ms": 2258.4,
+    "error": null,
+    "raw_tool_calls": [
+      {
+        "id": "call-a872069e-399c-47aa-8c26-d29a84478133",
+        "function": {
+          "arguments": "{\"minimum_spend\":500}",
+          "name": "find_inactive_high_value_customers"
+        },
+        "type": "function",
+        "index": 0
+      }
+    ]
+  },
+  {
+    "model": "nvidia/nemotron-3-super-120b-a12b:free",
+    "provider": "openrouter",
+    "prompt_id": 13,
+    "expected_tool": "find_inactive_high_value_customers",
+    "actual_tools": [
+      "find_inactive_high_value_customers"
+    ],
+    "success": true,
+    "latency_ms": 3219.3,
+    "error": null,
+    "raw_tool_calls": [
+      {
+        "id": "call-a3d47254-a860-4adf-b900-912245b59946",
+        "function": {
+          "arguments": "{\"minimum_spend\":500}",
+          "name": "find_inactive_high_value_customers"
+        },
+        "type": "function",
+        "index": 0
+      }
+    ]
+  },
+  {
+    "model": "nvidia/nemotron-3-super-120b-a12b:free",
+    "provider": "openrouter",
+    "prompt_id": 14,
+    "expected_tool": "find_inactive_high_value_customers",
+    "actual_tools": [
+      "find_inactive_high_value_customers"
+    ],
+    "success": true,
+    "latency_ms": 8338.5,
+    "error": null,
+    "raw_tool_calls": [
+      {
+        "id": "call-475dbb87-2790-47f5-8056-ce79cc9f77aa",
+        "function": {
+          "arguments": "{\"minimum_spend\":500}",
+          "name": "find_inactive_high_value_customers"
+        },
+        "type": "function",
+        "index": 0
+      }
+    ]
+  },
+  {
+    "model": "nvidia/nemotron-3-super-120b-a12b:free",
+    "provider": "openrouter",
+    "prompt_id": 15,
+    "expected_tool": "create_follow_up_drafts",
+    "actual_tools": [
+      "create_follow_up_drafts"
+    ],
+    "success": true,
+    "latency_ms": 8322.9,
+    "error": null,
+    "raw_tool_calls": [
+      {
+        "id": "call-f361c67c-2cb2-4e05-8a14-9664ad63cb94",
+        "function": {
+          "arguments": "{\"items\":\"[{\\\"customer_id\\\": \\\"e0000000-0000-0000-0000-000000000002\\\", \\\"subject\\\": \\\"We miss you\\\", \\\"body\\\": \\\"Hi there,\\\\n\\\\nWe noticed you haven't visited us in a while and wanted to check in. We hope you're doing well and would love to see you back soon. If there's anything we can do to help, please let us know.\\\\n\\\\nBest regards,\\\\nThe Team\\\"]}\"}",
+          "name": "create_follow_up_drafts"
+        },
+        "type": "function",
+        "index": 0
+      }
+    ]
+  },
+  {
+    "model": "nvidia/nemotron-3-super-120b-a12b:free",
+    "provider": "openrouter",
+    "prompt_id": 16,
+    "expected_tool": "create_follow_up_drafts",
+    "actual_tools": [],
+    "success": false,
+    "latency_ms": 19542.5,
+    "error": null,
+    "raw_tool_calls": null
+  },
+  {
+    "model": "nvidia/nemotron-3-super-120b-a12b:free",
+    "provider": "openrouter",
+    "prompt_id": 17,
+    "expected_tool": "create_follow_up_drafts",
+    "actual_tools": [],
+    "success": false,
+    "latency_ms": 19481.4,
+    "error": null,
+    "raw_tool_calls": null
+  },
+  {
+    "model": "nvidia/nemotron-3-super-120b-a12b:free",
+    "provider": "openrouter",
+    "prompt_id": 18,
+    "expected_tool": "list_email_drafts",
+    "actual_tools": [
+      "list_email_drafts"
+    ],
+    "success": true,
+    "latency_ms": 7012.5,
+    "error": null,
+    "raw_tool_calls": [
+      {
+        "id": "call-baa6e7ad-8cec-4869-a495-257b0fc2d95a",
+        "function": {
+          "arguments": "{\"status\":\"pending_review\"}",
+          "name": "list_email_drafts"
+        },
+        "type": "function",
+        "index": 0
+      }
+    ]
+  },
+  {
+    "model": "nvidia/nemotron-3-super-120b-a12b:free",
+    "provider": "openrouter",
+    "prompt_id": 19,
+    "expected_tool": "list_email_drafts",
+    "actual_tools": [
+      "list_email_drafts"
+    ],
+    "success": true,
+    "latency_ms": 2343.4,
+    "error": null,
+    "raw_tool_calls": [
+      {
+        "id": "call-97851b72-5ad2-4371-820c-416a6d9c7993",
+        "function": {
+          "arguments": "{\"status\":\"pending_review\"}",
+          "name": "list_email_drafts"
+        },
+        "type": "function",
+        "index": 0
+      }
+    ]
+  },
+  {
+    "model": "nvidia/nemotron-3-super-120b-a12b:free",
+    "provider": "openrouter",
+    "prompt_id": 20,
+    "expected_tool": "list_email_drafts",
+    "actual_tools": [
+      "list_email_drafts"
+    ],
+    "success": true,
+    "latency_ms": 1285.2,
+    "error": null,
+    "raw_tool_calls": [
+      {
+        "id": "call-53c87d52-5e03-462d-8769-64c7caf3453c",
+        "function": {
+          "arguments": "{\"status\":\"pending_review\"}",
+          "name": "list_email_drafts"
+        },
+        "type": "function",
+        "index": 0
+      }
+    ]
+  }
+]

@@ -1,0 +1,17 @@
+[
+  {
+    "customer_id": "e0000000-0000-0000-0000-000000000003",
+    "name": "Three 200 DT",
+    "previous_month_spend": "600.000"
+  },
+  {
+    "customer_id": "e0000000-0000-0000-0000-000000000008",
+    "name": "Injection Test",
+    "previous_month_spend": "550.000"
+  },
+  {
+    "customer_id": "e0000000-0000-0000-0000-000000000002",
+    "name": "Over 500.001 DT",
+    "previous_month_spend": "500.001"
+  }
+]
