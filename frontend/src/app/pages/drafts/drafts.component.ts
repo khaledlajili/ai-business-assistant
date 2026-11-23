@@ -1,27 +1,16 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { ApiService, Draft } from '../../core/api.service';
 import { AuthService } from '../../core/auth.service';
-import { ChatStateService } from '../../core/chat-state.service';
+import { HeaderComponent } from '../../shared/header/header.component';
 
 @Component({
   selector: 'app-drafts',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, HeaderComponent],
   template: `
     <div class="layout">
-      <header>
-        <h1>Email Drafts</h1>
-        <nav>
-          <a routerLink="/chat">Chat</a>
-          <a routerLink="/drafts">Drafts</a>
-          <span class="user" [title]="auth.currentUser()?.full_name">
-            {{ shortName() }} ({{ auth.currentUser()?.role }})
-          </span>
-          <button class="link" (click)="logout()">Logout</button>
-        </nav>
-      </header>
+      <app-header title="Email Drafts"></app-header>
 
       <div class="filters">
         <button [class.active]="filter()==='pending_review'" (click)="load('pending_review')">Pending</button>
@@ -51,41 +40,109 @@ import { ChatStateService } from '../../core/chat-state.service';
     </div>
   `,
   styles: [`
-    .layout { min-height: 100vh; background: #0f172a; color: #e2e8f0; overflow-x: hidden; }
-    header {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: .6rem 1rem; border-bottom: 1px solid #1e293b; gap: .75rem; flex-wrap: wrap;
+    .layout {
+      min-height: 100vh;
+      background: #0f172a;
+      color: #e2e8f0;
+      overflow-x: hidden;
     }
-    h1 { margin: 0; font-size: 1.05rem; white-space: nowrap; }
-    nav { display: flex; align-items: center; gap: .75rem; flex-wrap: wrap; min-width: 0; }
-    nav a { color: #94a3b8; text-decoration: none; white-space: nowrap; font-size: .9rem; }
-    .user {
-      color: #64748b; font-size: .8rem; max-width: 140px;
-      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+
+    .filters {
+      padding: 1rem;
+      display: flex;
+      gap: .5rem;
+      flex-wrap: wrap;
     }
-    .link { background: none; border: none; color: #f87171; cursor: pointer; white-space: nowrap; }
-    .filters { padding: 1rem; display: flex; gap: .5rem; flex-wrap: wrap; }
+
     .filters button {
-      background: #1e293b; border: 1px solid #334155; color: #94a3b8;
-      padding: .4rem .8rem; border-radius: 6px; cursor: pointer;
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #94a3b8;
+      padding: .4rem .8rem;
+      border-radius: 6px;
+      cursor: pointer;
     }
-    .filters button.active { background: #3b82f6; color: white; border-color: #3b82f6; }
-    .list { padding: 0 1rem 2rem; display: grid; gap: 1rem; }
-    .card { background: #1e293b; border-radius: 10px; padding: 1rem; overflow: hidden; }
-    .meta { display: flex; justify-content: space-between; margin-bottom: .4rem; gap: .5rem; }
-    .status { font-size: .8rem; color: #94a3b8; text-transform: uppercase; white-space: nowrap; }
-    .subject { font-weight: 600; margin-bottom: .5rem; word-break: break-word; }
+
+    .filters button.active {
+      background: #3b82f6;
+      color: white;
+      border-color: #3b82f6;
+    }
+
+    .list {
+      padding: 0 1rem 2rem;
+      display: grid;
+      gap: 1rem;
+    }
+
+    .card {
+      background: #1e293b;
+      border-radius: 10px;
+      padding: 1rem;
+      overflow: hidden;
+    }
+
+    .meta {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: .4rem;
+      gap: .5rem;
+    }
+
+    .status {
+      font-size: .8rem;
+      color: #94a3b8;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .subject {
+      font-weight: 600;
+      margin-bottom: .5rem;
+      word-break: break-word;
+    }
+
     .body {
-      background: #0f172a; padding: .75rem; border-radius: 6px;
-      white-space: pre-wrap; font-size: .85rem; max-height: 120px; overflow: auto;
+      background: #0f172a;
+      padding: .75rem;
+      border-radius: 6px;
+      white-space: pre-wrap;
+      font-size: .85rem;
+      max-height: 120px;
+      overflow: auto;
     }
-    .actions { margin-top: .75rem; display: flex; gap: .5rem; flex-wrap: wrap; }
+
+    .actions {
+      margin-top: .75rem;
+      display: flex;
+      gap: .5rem;
+      flex-wrap: wrap;
+    }
+
     .actions button {
-      padding: .4rem .9rem; border: none; border-radius: 6px;
-      background: #22c55e; color: white; cursor: pointer;
+      padding: .4rem .9rem;
+      border: none;
+      border-radius: 6px;
+      background: #22c55e;
+      color: white;
+      cursor: pointer;
     }
-    .actions button.danger { background: #ef4444; }
-    .empty { color: #64748b; text-align: center; margin-top: 2rem; }
+
+    .actions button.danger {
+      background: #ef4444;
+    }
+
+    .empty {
+      color: #64748b;
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 640px) {
+      .filters { padding: 0.75rem; }
+      .list { padding: 0 0.75rem 1.5rem; }
+      .card { padding: 0.85rem; }
+    }
   `]
 })
 export class DraftsComponent implements OnInit {
@@ -95,16 +152,10 @@ export class DraftsComponent implements OnInit {
   constructor(
     public auth: AuthService,
     private api: ApiService,
-    private chat: ChatStateService,
   ) {}
 
   ngOnInit() {
     this.load('pending_review');
-  }
-
-  shortName(): string {
-    const n = this.auth.currentUser()?.full_name || '';
-    return n.length > 18 ? n.slice(0, 16) + '…' : n;
   }
 
   canApprove() {
@@ -134,10 +185,5 @@ export class DraftsComponent implements OnInit {
   send(d: Draft) {
     const key = `ui-${d.draft_id}-${Date.now()}`;
     this.api.sendDraft(d.draft_id, key).subscribe(() => this.load('sent'));
-  }
-
-  logout() {
-    this.chat.clear();
-    this.auth.logout();
   }
 }
