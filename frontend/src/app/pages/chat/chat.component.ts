@@ -1,11 +1,11 @@
 import { Component, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import { marked } from 'marked';
 import { ApiService, ChatResponse } from '../../core/api.service';
 import { AuthService } from '../../core/auth.service';
 import { ChatStateService } from '../../core/chat-state.service';
+import { HeaderComponent } from '../../shared/header/header.component';
 
 interface QueryPreset {
   label: string;
@@ -49,20 +49,10 @@ const ALL_PRESETS: QueryPreset[] = [
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, HeaderComponent],
   template: `
     <div class="layout">
-      <header>
-        <div class="header-left">
-          <h1>Assistant</h1>
-          <a routerLink="/chat">Chat</a>
-          <a routerLink="/drafts">Drafts</a>
-        </div>
-        <div class="header-right">
-          <span class="user" [title]="fullUserLabel()">{{ shortUserLabel() }}</span>
-          <button class="link" type="button" (click)="logout()">Logout</button>
-        </div>
-      </header>
+      <app-header title="Assistant"></app-header>
 
       <div class="messages">
         <div *ngFor="let m of chat.messages()" [class]="'msg ' + m.role">
@@ -104,67 +94,6 @@ const ALL_PRESETS: QueryPreset[] = [
       background: #0f172a;
       color: #e2e8f0;
       overflow: hidden;
-    }
-
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.75rem;
-      padding: 0.6rem 1rem;
-      border-bottom: 1px solid #1e293b;
-      flex-shrink: 0;
-      min-width: 0;
-    }
-
-    .header-left, .header-right {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      min-width: 0;
-    }
-
-    .header-left {
-      flex: 1 1 auto;
-      overflow: hidden;
-    }
-
-    .header-right {
-      flex: 0 1 auto;
-      max-width: 55%;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: 1.05rem;
-      white-space: nowrap;
-    }
-
-    .header-left a {
-      color: #94a3b8;
-      text-decoration: none;
-      white-space: nowrap;
-      font-size: 0.9rem;
-    }
-    .header-left a:hover { color: #e2e8f0; }
-
-    .user {
-      color: #64748b;
-      font-size: 0.8rem;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      min-width: 0;
-    }
-
-    .link {
-      background: none;
-      border: none;
-      color: #f87171;
-      cursor: pointer;
-      white-space: nowrap;
-      font-size: 0.9rem;
-      flex-shrink: 0;
     }
 
     .messages {
@@ -312,11 +241,9 @@ const ALL_PRESETS: QueryPreset[] = [
     }
 
     @media (max-width: 640px) {
-      header { padding: 0.5rem 0.75rem; }
-      .header-left a:not(:first-of-type) { /* keep Chat/Drafts */ }
-      .header-right { max-width: 50%; }
       .msg { max-width: 100%; }
-      .user { font-size: 0.75rem; }
+      .input-bar { padding: 0.6rem 0.75rem; }
+      .presets { padding: 0 0.75rem 0.75rem; }
     }
   `]
 })
@@ -335,25 +262,8 @@ export class ChatComponent {
     private api: ApiService,
   ) {}
 
-  fullUserLabel(): string {
-    const u = this.auth.currentUser();
-    return u ? `${u.full_name} (${u.role})` : '';
-  }
-
-  shortUserLabel(): string {
-    const u = this.auth.currentUser();
-    if (!u) return '';
-    const name = u.full_name.length > 14 ? u.full_name.slice(0, 12) + '…' : u.full_name;
-    return `${name} (${u.role})`;
-  }
-
   preset(text: string) {
     this.input = text;
-  }
-
-  logout() {
-    this.chat.clear();
-    this.auth.logout();
   }
 
   send() {
