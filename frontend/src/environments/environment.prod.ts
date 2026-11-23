@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://YOUR-RENDER-SERVICE.onrender.com',
+  apiUrl: 'https://ai-business-assistant-5ien.onrender.com',
 };
