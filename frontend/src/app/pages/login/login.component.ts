@@ -102,7 +102,7 @@ export class LoginComponent implements OnDestroy {
 
   private retryTimer: ReturnType<typeof setTimeout> | null = null;
   private retryCount = 0;
-  private readonly maxRetries = 12; // ~60s if every 5s
+  private readonly maxRetries = 12;
 
   constructor(
     private auth: AuthService,
@@ -136,7 +136,6 @@ export class LoginComponent implements OnDestroy {
         this.router.navigateByUrl('/chat');
       },
       error: (err) => {
-        // Network / cold start
         if (err.status === 0 || err.status === 502 || err.status === 503 || err.status === 504) {
           this.waking.set(true);
           this.loading.set(false);
@@ -159,10 +158,9 @@ export class LoginComponent implements OnDestroy {
     }
     this.retryCount += 1;
     this.retryTimer = setTimeout(() => {
-      // Ping health first; if up, retry login
       this.api.health().subscribe({
         next: () => this.attemptLogin(),
-        error: () => this.attemptLogin(), // still try login
+        error: () => this.attemptLogin(),
       });
     }, 5000);
   }
