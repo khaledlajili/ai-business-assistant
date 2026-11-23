@@ -28,7 +28,6 @@ class ChatResponse(BaseModel):
 
 
 def _reply_from_tools(tool_results: list[dict]) -> str | None:
-    """Truthful markdown reply derived only from tool data."""
     if not tool_results:
         return None
 
