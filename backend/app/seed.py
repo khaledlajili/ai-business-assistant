@@ -1,7 +1,3 @@
-"""
-Deterministic seed script.
-Run with:  uv run python -m app.seed
-"""
 import asyncio
 import uuid
 from datetime import datetime, timedelta, timezone
@@ -22,7 +18,7 @@ from argon2 import PasswordHasher
 ph = PasswordHasher()
 TZ = ZoneInfo("Africa/Tunis")
 
-# Fixed UUIDs so the seed is fully deterministic
+
 WS1_ID = uuid.UUID("11111111-1111-1111-1111-111111111111")
 WS2_ID = uuid.UUID("22222222-2222-2222-2222-222222222222")
 
@@ -30,7 +26,7 @@ USER_VIEWER_ID = uuid.UUID("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa")
 USER_MANAGER_ID = uuid.UUID("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb")
 USER_SALES_ID = uuid.UUID("cccccccc-cccc-cccc-cccc-cccccccccccc")
 
-# Edge-case customers (fixed IDs)
+
 CUST_EXACT_500 = uuid.UUID("e0000000-0000-0000-0000-000000000001")
 CUST_OVER_500 = uuid.UUID("e0000000-0000-0000-0000-000000000002")
 CUST_THREE_200 = uuid.UUID("e0000000-0000-0000-0000-000000000003")
@@ -46,18 +42,15 @@ async def wipe_and_seed():
     async_session = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 
     async with engine.begin() as conn:
-        # Full wipe (order matters because of FKs)
         await conn.execute(text("DROP SCHEMA public CASCADE"))
         await conn.execute(text("CREATE SCHEMA public"))
         await conn.run_sync(Base.metadata.create_all)
 
     async with async_session() as session:
-        # ---------- Workspaces ----------
         ws1 = Workspace(id=WS1_ID, name="Tunis Main", timezone="Africa/Tunis")
         ws2 = Workspace(id=WS2_ID, name="Secondary Workspace", timezone="UTC")
         session.add_all([ws1, ws2])
 
-        # ---------- Users ----------
         users = [
             User(id=USER_VIEWER_ID, email="viewer@demo.local",
                  hashed_password=ph.hash("viewer123"), full_name="Demo Viewer"),
@@ -68,7 +61,6 @@ async def wipe_and_seed():
         ]
         session.add_all(users)
 
-        # ---------- Memberships ----------
         memberships = [
             WorkspaceMembership(workspace_id=WS1_ID, user_id=USER_VIEWER_ID, role="viewer"),
             WorkspaceMembership(workspace_id=WS1_ID, user_id=USER_MANAGER_ID, role="manager"),
@@ -77,7 +69,6 @@ async def wipe_and_seed():
         ]
         session.add_all(memberships)
 
-        # ---------- Products ----------
         products = []
         for i in range(1, 6):
             p = Product(
@@ -90,7 +81,6 @@ async def wipe_and_seed():
         session.add_all(products)
         await session.flush()
 
-        # ---------- Helper to create orders ----------
         def make_order(customer_id, amount, status, ordered_at, workspace_id=WS1_ID):
             order = Order(
                 id=uuid.uuid4(),
@@ -100,7 +90,6 @@ async def wipe_and_seed():
                 total_amount=amount,
                 ordered_at=ordered_at,
             )
-            # one simple item
             item = OrderItem(
                 id=uuid.uuid4(),
                 order_id=order.id,
@@ -112,16 +101,13 @@ async def wipe_and_seed():
             order.items.append(item)
             return order
 
-        # Current time reference (we freeze around mid-October 2026 for reproducibility)
-        # Previous month = September 2026, Current month = October 2026
         ref = datetime(2026, 10, 15, 12, 0, tzinfo=TZ)
         prev_month_start = datetime(2026, 9, 1, 10, 0, tzinfo=TZ)
         prev_month_mid = datetime(2026, 9, 15, 14, 0, tzinfo=TZ)
         curr_month = datetime(2026, 10, 5, 11, 0, tzinfo=TZ)
         jan_order = datetime(2026, 1, 20, 9, 0, tzinfo=TZ)
-        midnight_boundary = datetime(2026, 10, 1, 0, 30, tzinfo=TZ)  # 00:30 on 1st → current month
+        midnight_boundary = datetime(2026, 10, 1, 0, 30, tzinfo=TZ)
 
-        # ---------- Edge-case customers ----------
         edge_customers = [
             Customer(id=CUST_EXACT_500, workspace_id=WS1_ID, name="Exact 500 DT",
                      email="exact500@demo.local", notes=None),
@@ -143,39 +129,23 @@ async def wipe_and_seed():
         ]
         session.add_all(edge_customers)
 
-        # ---------- Orders for edge cases ----------
         orders = []
 
-        # Exact 500.000 in previous month → should be EXCLUDED
         orders.append(make_order(CUST_EXACT_500, Decimal("500.000"), "paid", prev_month_mid))
-
-        # 500.001 in previous month → should be INCLUDED
         orders.append(make_order(CUST_OVER_500, Decimal("500.001"), "completed", prev_month_mid))
 
-        # Three orders of 200 that aggregate to 600 → should be INCLUDED
         for _ in range(3):
             orders.append(make_order(CUST_THREE_200, Decimal("200.000"), "paid", prev_month_start + timedelta(days=_)))
 
-        # Only cancelled orders → should be EXCLUDED
         orders.append(make_order(CUST_CANCELLED, Decimal("900.000"), "cancelled", prev_month_mid))
-
-        # Order at 00:30 on 1st of current month → counts as CURRENT month
         orders.append(make_order(CUST_MIDNIGHT, Decimal("700.000"), "paid", midnight_boundary))
-        # also give him a previous-month order so he would qualify otherwise
         orders.append(make_order(CUST_MIDNIGHT, Decimal("600.000"), "paid", prev_month_mid))
-
-        # January order (year boundary)
         orders.append(make_order(CUST_JANUARY, Decimal("800.000"), "paid", jan_order))
-
-        # Same customer name pattern but in other workspace
         orders.append(make_order(CUST_OTHER_WS, Decimal("900.000"), "paid", prev_month_mid, workspace_id=WS2_ID))
-
-        # Injection customer – give him a qualifying order
         orders.append(make_order(CUST_INJECTION, Decimal("550.000"), "paid", prev_month_mid))
 
         session.add_all(orders)
 
-        # ---------- Regular customers (≈ 22 more to reach ~30) ----------
         for i in range(1, 23):
             c = Customer(
                 id=uuid.uuid4(),
@@ -187,15 +157,12 @@ async def wipe_and_seed():
             session.add(c)
             await session.flush()
 
-            # Give most of them some orders in previous month
             if i % 3 != 0:
                 amt = Decimal(f"{300 + i * 7}.000")
                 session.add(make_order(c.id, amt, "paid", prev_month_start + timedelta(days=i % 20)))
-            # Some also have current-month orders
             if i % 5 == 0:
                 session.add(make_order(c.id, Decimal("150.000"), "completed", curr_month))
 
-        # ---------- Empty budget row ----------
         session.add(UsageBudget(
             date=ref.date(),
             scope="global",
@@ -207,7 +174,6 @@ async def wipe_and_seed():
         await session.commit()
         print("✅ Seed completed successfully")
 
-        # Print useful summary
         result = await session.execute(text("SELECT count(*) FROM customers"))
         print(f"Customers: {result.scalar()}")
         result = await session.execute(text("SELECT count(*) FROM orders"))
