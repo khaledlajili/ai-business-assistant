@@ -44,53 +44,12 @@ import { ApiService } from '../../core/api.service';
         <div class="demo-accounts">
           <p>Demo accounts:</p>
           <button type="button" class="link" (click)="fill('manager@demo.local','manager123')" [disabled]="waking()">Manager</button>
+          <button type="button" class="link" (click)="fill('sales@demo.local','sales123')" [disabled]="waking()">Sales Rep</button>
           <button type="button" class="link" (click)="fill('viewer@demo.local','viewer123')" [disabled]="waking()">Viewer</button>
         </div>
       </div>
     </div>
-  `,
-  styles: [`
-    .login-page {
-      min-height: 100vh; display: flex; align-items: center; justify-content: center;
-      background: #0f172a; padding: 1rem;
-    }
-    .card {
-      background: #1e293b; color: #e2e8f0; padding: 2rem; border-radius: 12px;
-      width: 100%; max-width: 380px; box-shadow: 0 10px 40px rgba(0,0,0,.4);
-    }
-    h1 { margin: 0 0 .25rem; font-size: 1.4rem; }
-    .subtitle { color: #94a3b8; margin-bottom: 1.25rem; font-size: .9rem; }
-    label { display: block; margin: .75rem 0 .25rem; font-size: .85rem; color: #94a3b8; }
-    input {
-      width: 100%; padding: .6rem .75rem; border-radius: 6px; border: 1px solid #334155;
-      background: #0f172a; color: #e2e8f0; box-sizing: border-box;
-    }
-    button[type=submit] {
-      width: 100%; margin-top: 1.25rem; padding: .7rem; border: none; border-radius: 6px;
-      background: #3b82f6; color: white; font-weight: 600; cursor: pointer;
-    }
-    button[type=submit]:disabled { opacity: .65; cursor: not-allowed; }
-    .error { color: #f87171; margin-top: 1rem; font-size: .9rem; }
-    .banner {
-      display: flex; gap: .75rem; align-items: flex-start;
-      padding: .75rem; border-radius: 8px; margin-bottom: 1rem; font-size: .85rem; line-height: 1.35;
-    }
-    .banner.wake { background: #1e3a5f; border: 1px solid #3b82f6; color: #bfdbfe; }
-    .banner.wake p { margin: .25rem 0 0; color: #93c5fd; font-size: .8rem; }
-    .banner.reduced { background: #422006; border: 1px solid #f59e0b; color: #fde68a; }
-    .spinner {
-      width: 18px; height: 18px; border: 2px solid #60a5fa; border-top-color: transparent;
-      border-radius: 50%; flex-shrink: 0; margin-top: 2px;
-      animation: spin .8s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .demo-accounts { margin-top: 1.5rem; font-size: .85rem; color: #94a3b8; }
-    .link {
-      background: none; border: none; color: #60a5fa; cursor: pointer;
-      margin-right: .75rem; padding: 0;
-    }
-    .link:disabled { opacity: .5; cursor: not-allowed; }
-  `]
+  `
 })
 export class LoginComponent implements OnDestroy {
   email = '';
