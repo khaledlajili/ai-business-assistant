@@ -1,111 +1,42 @@
 # AI Business Assistant
 
-A full-stack portfolio project demonstrating an AI-powered business assistant. Users can chat with an LLM agent that queries a synthetic business database (customers, orders, sales) and manages email drafts, with role-based access control.
+A full-stack portfolio project: an AI assistant that answers questions about customers, sales, and orders by calling real tools (no invented numbers), and manages email draft workflows with role-based permissions.
 
-Built with **FastAPI** (async, SQLAlchemy, Alembic), **Angular** (standalone components), and **PostgreSQL**. The agent uses tool-calling for accurate, data-grounded responses.
+**Live demo:** [https://khaledlajili.github.io/ai-business-assistant](https://khaledlajili.github.io/ai-business-assistant)
 
 ## Features
 
-- Role-based authentication (manager, sales_rep, viewer)
-- Natural language queries about customers, sales, and drafts
-- Deterministic tool results rendered as markdown tables
+- Role-based access (manager, sales_rep, viewer)
+- Natural language queries over a synthetic business database
+- Deterministic tool results rendered as clean markdown tables
 - Email draft creation, approval, and sending workflow
-- Responsive dark-themed UI
-- Health endpoint for free-tier hosting keep-alive
+- Responsive dark UI
+- Health endpoint for free-tier keep-alive
 
 ## Tech Stack
 
-**Backend**
-- FastAPI + Uvicorn
-- SQLAlchemy 2.0 (async) + Alembic
-- Pydantic
-- Argon2 password hashing
-- LLM integration (Groq / OpenRouter) with tool calling
+**Backend:** FastAPI, SQLAlchemy 2 (async), Alembic, Pydantic, Argon2, LLM tool-calling (Groq / OpenRouter)  
+**Frontend:** Angular 19 (standalone + signals), responsive CSS  
+**Data:** PostgreSQL + Docker Compose
 
-**Frontend**
-- Angular 18+ (standalone components, signals)
-- Responsive CSS (no external UI library)
+## Demo Accounts
 
-**Infrastructure**
-- PostgreSQL
-- Docker Compose for local DB
-- Designed for Render (or similar) free tier
-
-## Project Structure
-
-```
-backend/          FastAPI app, agent, models, services
-frontend/         Angular SPA
-docker-compose.yml  Local PostgreSQL
-```
+- Manager: `manager@demo.local` / `manager123`
+- Sales Rep: `sales@demo.local` / `sales123`
+- Viewer: `viewer@demo.local` / `viewer123`
 
 ## Local Development
 
-### Prerequisites
-- Python 3.11+
-- Node.js 20+
-- Docker (for Postgres)
-
-### 1. Database
-
 ```bash
 docker compose up -d
-```
-
-### 2. Backend
-
-```bash
 cd backend
-cp ../.env.example .env
-# Edit .env with your LLM keys and JWT secret
+cp ../.env.example .env   # add LLM keys + JWT secret
 uv sync
 uv run alembic upgrade head
-uv run python -m app.seed          # Load synthetic demo data
+uv run python -m app.seed
 uv run uvicorn app.main:app --reload --port 8000
-```
 
-### 3. Frontend
-
-```bash
-cd frontend
+cd ../frontend
 npm install
 npm start
 ```
-
-Open http://localhost:4200
-
-**Demo accounts**
-- Manager: `manager@demo.local` / `manager123`
-- Viewer: `viewer@demo.local` / `viewer123`
-
-## Deployment Notes (Render free tier)
-
-The backend exposes a simple health check:
-
-```
-GET /health
-→ {"status": "ok"}
-```
-
-**Keep-alive cron job**
-
-Free instances spin down after inactivity. To keep the service warm:
-
-1. Deploy the backend to Render (or similar).
-2. On [cron-job.org](https://cron-job.org) create a job that hits:
-
-   `https://your-backend.onrender.com/health`
-
-   every **10–14 minutes**.
-
-This prevents cold starts so the demo stays responsive.
-
-Update `frontend/src/environments/environment.prod.ts` with your real backend URL before building the frontend for production.
-
-## Agent Behavior
-
-The assistant is constrained to answer from tool results. It never invents numbers. Supported tools include customer search, sales summaries, inactive high-value customer detection, and email draft management.
-
-## License
-
-Portfolio project — feel free to explore the code.
