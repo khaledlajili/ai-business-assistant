@@ -14,35 +14,65 @@ interface QueryPreset {
 }
 
 const ALL_PRESETS: QueryPreset[] = [
+  // Shared (all roles)
   {
-    label: 'High-value inactive customers',
+    label: 'Inactive high-value customers',
     text: 'Which high-value customers spent more than 500 DT last month but have not ordered this month?',
     roles: ['viewer', 'manager', 'sales_rep'],
   },
   {
-    label: 'Sales – previous month',
-    text: 'What were total sales in the previous month?',
+    label: 'Sales last month',
+    text: 'What were the total sales in the previous month?',
     roles: ['viewer', 'manager', 'sales_rep'],
   },
   {
-    label: 'Sales – current month',
-    text: 'What are total sales so far this month?',
+    label: 'Sales this month',
+    text: 'What are the total sales so far this month?',
     roles: ['viewer', 'manager', 'sales_rep'],
   },
   {
-    label: 'Search customer Ahmed',
+    label: 'Sales last 30 days',
+    text: 'Show me the sales summary for the last 30 days.',
+    roles: ['viewer', 'manager', 'sales_rep'],
+  },
+  {
+    label: 'Search customers',
     text: 'Search for customers named Ahmed',
     roles: ['viewer', 'manager', 'sales_rep'],
   },
   {
-    label: 'List pending drafts',
-    text: 'Show pending email drafts',
+    label: 'Pending drafts',
+    text: 'Show me the pending email drafts',
     roles: ['viewer', 'manager', 'sales_rep'],
   },
   {
+    label: 'Approved drafts',
+    text: 'List all approved email drafts',
+    roles: ['viewer', 'manager', 'sales_rep'],
+  },
+
+  // Sales Rep + Manager
+  {
     label: 'Create follow-up draft',
-    text: 'Create a follow-up email draft for customer e0000000-0000-0000-0000-000000000002 with subject We miss you and a short polite body',
+    text: 'Create a polite follow-up email draft for a customer who has not ordered recently. Use a friendly subject and short body.',
     roles: ['manager', 'sales_rep'],
+  },
+  {
+    label: 'Draft for inactive customers',
+    text: 'Create follow-up email drafts for the high-value customers who have not ordered this month.',
+    roles: ['manager', 'sales_rep'],
+  },
+
+  // Manager only
+  {
+    label: 'Review pending drafts',
+    text: 'Show pending drafts so I can approve or reject them.',
+    roles: ['manager'],
+  },
+  {
+    label: 'Send approved drafts',
+    text: 'List the approved drafts that are ready to be sent.',
+    roles: ['manager'],
   },
 ];
 
@@ -78,7 +108,7 @@ const ALL_PRESETS: QueryPreset[] = [
       </form>
 
       <div class="presets">
-        <p class="presets-title">Available for {{ auth.currentUser()?.role }}:</p>
+        <p class="presets-title">Example prompts</p>
         <button type="button" *ngFor="let p of visiblePresets()" (click)="preset(p.text)">
           {{ p.label }}
         </button>
