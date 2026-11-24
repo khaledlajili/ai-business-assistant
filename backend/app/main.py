@@ -21,5 +21,6 @@ app.include_router(drafts.router)
 
 
 @app.get("/health")
+@app.head("/health")
 async def health():
     return {"status": "ok"}
